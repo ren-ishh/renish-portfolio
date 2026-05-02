@@ -1,79 +1,231 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@plugin "tailwindcss-animate";
+@custom-variant dark (&:is(.dark *));
 
-@custom-variant dark (&:where(.dark, .dark *));
+:root {
+  --background: #080808;
+  --foreground: #fafafa;
+  --muted: #141414;
+  --muted-foreground: #737373;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --accent: #ffffff;
+  --accent-dim: rgba(255, 255, 255, 0.08);
+  --radius: 0.75rem;
 
-@theme {
-  /* Step 6: Animations & Fonts */
+  /* Typography */
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
+}
 
-  --animate-fade-up: fadeUp 0.6s ease forwards;
-  --animate-fade-in: fadeIn 0.4s ease forwards;
-  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/* ─── Base ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  /* Step 7: Colors & Radius mapped from the tutorial */
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-border: hsl(var(--border));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --radius-lg: var(--radius);
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* Hide default cursor globally */
+*,
+*:hover {
+  cursor: none !important;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ─── Selection ─────────────────────────────────────────── */
+::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* ─── Custom Animations ─────────────────────────────────── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
   }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* --- Step 7: Variables & Base Styles --- */
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --border: 0 0% 89.8%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --radius: 0.5rem;
-  }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;    
-    --border: 0 0% 14.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
   }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
-  * {
-    @apply border-border;
-  }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
 
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
 
-  html {
-    scroll-behavior: smooth;
-  }
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 
-  /* Custom scrollbar for your portfolio */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { 
-    background: hsl(var(--border)); 
-    border-radius: 99px; 
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes loading-bar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* Utility classes for the animations */
+.animate-fade-up     { animation: fade-up 0.6s ease forwards; }
+.animate-fade-in     { animation: fade-in 0.4s ease forwards; }
+.animate-float       { animation: float 4s ease-in-out infinite; }
+.animate-pulse-glow  { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-spin-slow   { animation: spin-slow 12s linear infinite; }
+.animate-blink       { animation: blink 1s step-end infinite; }
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.0) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.0) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* ─── Glassmorphism utility ─────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid var(--border-strong);
+}
+
+/* ─── Gradient text ─────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Noise texture overlay ─────────────────────────────── */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Section spacing ───────────────────────────────────── */
+.section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
+}
+
+/* ─── Section label ─────────────────────────────────────── */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 1rem;
+}
+
+.section-label::before {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ─── Link hover underline ──────────────────────────────── */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+.hover-underline:hover::after {
+  width: 100%;
 }
