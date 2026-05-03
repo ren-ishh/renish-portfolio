@@ -21,7 +21,6 @@ function ProjectCard({
   const [hovered, setHovered] = useState(false);
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Don't open modal if user clicked a link
     const target = e.target as HTMLElement;
     if (target.closest("a")) return;
     onSelect(project);
@@ -47,9 +46,9 @@ function ProjectCard({
       className="glass-sm"
       style={{
         position:      "relative",
-        padding:        "1.75rem",
+        padding:       "1.75rem",
         borderRadius:  "14px",
-        border:        `1px solid ${hovered ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)"}`,
+        border:        `1px solid ${hovered ? "rgba(255,255,255,0.18)" : "var(--border)"}`,
         transition:    "border-color .25s, box-shadow .25s",
         boxShadow:     hovered
           ? "0 16px 32px rgba(0,0,0,0.4)"
@@ -64,38 +63,38 @@ function ProjectCard({
       {/* top row */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <span style={{
-          fontSize:   "0.65rem",
-          fontWeight: 500,
-          padding:    "3px 10px",
-          borderRadius: "99px",
-          background: "rgba(255,255,255,0.05)",
-          border:     "1px solid rgba(255,255,255,0.07)",
-          color:      "rgba(255,255,255,0.3)",
+          fontSize:      "0.65rem",
+          fontWeight:    500,
+          padding:       "3px 10px",
+          borderRadius:  "99px",
+          background:    "rgba(255,255,255,0.05)",
+          border:        "1px solid rgba(255,255,255,0.07)",
+          color:         "rgba(255,255,255,0.3)",
           letterSpacing: "0.06em",
         }}>
           {project.status}
         </span>
 
         <div style={{ display: "flex", gap: "6px" }}>
-          {/* 1. FIXED: Added missing <a tag */}
           <a
             href={project.github}
             target="_blank"
             rel="noreferrer"
             aria-label="View on GitHub"
             onClick={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
             style={{
-              display:         "flex",
-              alignItems:      "center",
-              justifyContent:  "center",
-              width:           36,
-              height:          36,
-              borderRadius:    "8px",
-              border:          "1px solid rgba(255,255,255,0.07)",
-              color:           "rgba(255,255,255,0.35)",
-              transition:      "color .2s, border-color .2s",
-              minWidth:        44,
-              minHeight:       44,
+              display:        "flex",
+              alignItems:     "center",
+              justifyContent: "center",
+              width:          36,
+              height:         36,
+              minWidth:       44,
+              minHeight:      44,
+              borderRadius:   "8px",
+              border:         "1px solid rgba(255,255,255,0.07)",
+              color:          "rgba(255,255,255,0.35)",
+              transition:     "color .2s, border-color .2s",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "white";
@@ -110,25 +109,25 @@ function ProjectCard({
           </a>
 
           {project.live && (
-            /* 2. FIXED: Added missing <a tag */
             <a
               href={project.live}
               target="_blank"
               rel="noreferrer"
               aria-label="View live demo"
               onClick={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
               style={{
-                display:         "flex",
-                alignItems:      "center",
-                justifyContent:  "center",
-                width:           36,
-                height:          36,
-                borderRadius:    "8px",
-                border:          "1px solid rgba(255,255,255,0.07)",
-                color:           "rgba(255,255,255,0.35)",
-                transition:      "color .2s, border-color .2s",
-                minWidth:        44,
-                minHeight:       44,
+                display:        "flex",
+                alignItems:     "center",
+                justifyContent: "center",
+                width:          36,
+                height:         36,
+                minWidth:       44,
+                minHeight:      44,
+                borderRadius:   "8px",
+                border:         "1px solid rgba(255,255,255,0.07)",
+                color:          "rgba(255,255,255,0.35)",
+                transition:     "color .2s, border-color .2s",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = "white";
@@ -166,8 +165,8 @@ function ProjectCard({
           </motion.span>
         </h3>
         <p style={{
-          fontSize:  "0.82rem",
-          color:     "rgba(255,255,255,0.4)",
+          fontSize:   "0.82rem",
+          color:      "rgba(255,255,255,0.4)",
           lineHeight: 1.65,
         }}>
           {project.description}
@@ -192,11 +191,11 @@ function ProjectCard({
 
       {/* click hint */}
       <p style={{
-        fontSize:    "0.68rem",
-        color:       "rgba(255,255,255,0.18)",
+        fontSize:      "0.68rem",
+        color:         "rgba(255,255,255,0.18)",
         letterSpacing: "0.04em",
-        opacity:     hovered ? 1 : 0,
-        transition:  "opacity .2s",
+        opacity:       hovered ? 1 : 0,
+        transition:    "opacity .2s",
       }}>
         Click to read more →
       </p>
@@ -209,6 +208,7 @@ export default function Projects() {
   const inView   = useInView(headRef, { once: true, margin: "-8% 0px" });
   const [selected, setSelected] = useState<Project | null>(null);
 
+  // Show all projects (featured + non-featured)
   const featured = projects.filter((p) => p.featured);
 
   return (
@@ -280,7 +280,6 @@ export default function Projects() {
           transition={{ delay: 0.7 }}
           style={{ marginTop: "2.5rem", textAlign: "center" }}
         >
-          {/* 3. FIXED: Added missing <a tag */}
           <a
             href="https://github.com/ren-ishh"
             target="_blank"
