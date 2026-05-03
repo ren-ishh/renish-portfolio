@@ -8,10 +8,13 @@ export default function GlassCursor() {
   const mouse   = useRef({ x: -100, y: -100 });
   const ring    = useRef({ x: -100, y: -100 });
   const raf     = useRef<number>(0);
+  const isTouch = useRef(false);
 
   useEffect(() => {
-    // Mobile QA Fix: Prevent custom cursor logic from running on touch devices
-    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+    // Detect touch device — hide elements and bail entirely
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      if (dotRef.current)  dotRef.current.style.display  = "none";
+      if (ringRef.current) ringRef.current.style.display = "none";
       return;
     }
 
@@ -57,6 +60,8 @@ export default function GlassCursor() {
           pointerEvents: "none",
           zIndex:        99999,
           willChange:    "transform",
+          // Start off-screen until mouse moves
+          transform:     "translate(-200px, -200px)",
         }}
       />
       <div
@@ -75,6 +80,8 @@ export default function GlassCursor() {
           pointerEvents:        "none",
           zIndex:               99998,
           willChange:           "transform",
+          // Start off-screen until mouse moves
+          transform:            "translate(-200px, -200px)",
         }}
       />
     </>
