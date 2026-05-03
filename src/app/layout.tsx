@@ -22,38 +22,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Renish Kanzariya — Full Stack Developer",
+  title: "Renish  — Software Developer",
   description:
     "First-year B.Tech CSE student at LPU building real-world projects. Open to internships and collaborations.",
-  keywords: ["Renish", "Kanzariya", "Full Stack Developer", "React", "Next.js", "LPU", "DevOps"],
-  authors: [{ name: "Renish Kanzariya" }],
-  creator: "Renish Kanzariya",
+  keywords: ["Renish",  "Full Stack Developer", "React", "Next.js", "LPU", "DevOps"],
+  authors: [{ name: "Renish " }],
+  creator: "Renish ",
   metadataBase: new URL("https://renish.vercel.app"),
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: "https://renish.vercel.app",
-    title: "Renish Kanzariya — Full Stack Developer",
+    title: "Renish R — Software Developer",
     description: "Building real-world projects. Open to internships.",
-    siteName: "Renish Kanzariya",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Renish Kanzariya" }],
+    siteName: "Renish ",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Renish " }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Renish Kanzariya",
+    title: "Renish ",
     description: "Full Stack Developer — React, Next.js, Node.js",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
+ 
 };
 
 export const viewport: Viewport = {
   themeColor:  "#080808",
   colorScheme: "dark",
+  // Prevents mobile browsers (like iOS Safari) from zooming in on form inputs
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

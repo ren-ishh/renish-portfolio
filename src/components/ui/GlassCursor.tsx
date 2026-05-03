@@ -10,6 +10,11 @@ export default function GlassCursor() {
   const raf     = useRef<number>(0);
 
   useEffect(() => {
+    // Mobile QA Fix: Prevent custom cursor logic from running on touch devices
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
     const onMove = (e: MouseEvent) => {
       mouse.current = { x: e.clientX, y: e.clientY };
     };

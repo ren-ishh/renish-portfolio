@@ -6,7 +6,6 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
-  animate,
 } from "framer-motion";
 import {
   Github, Linkedin, Twitter, Instagram, ArrowDown, Mail,
@@ -86,115 +85,114 @@ function Orb({ x, y, size, delay, live }: { x: string; y: string; size: number; 
 
 /* ── animated name blob circle ──────────────────── */
 function NameBlob({ live }: { live: boolean }) {
-    return (
-      <div
-        aria-hidden
+  return (
+    <div
+      aria-hidden
+      style={{
+        position:      "absolute",
+        width:         280,
+        height:        280,
+        top:           "50%",
+        left:          "50%",
+        transform:     "translate(-50%, -54%)",
+        pointerEvents: "none",
+        zIndex:        0,
+      }}
+    >
+      {/* ring 1 — closest, slower */}
+      <motion.div
         style={{
-          position:      "absolute",
-          width:         280,
-          height:        280,
-          top:           "50%",
-          left:          "50%",
-          transform:     "translate(-50%, -54%)",
-          pointerEvents: "none",
-          zIndex:        0,
+          position:     "absolute",
+          inset:        -10,
+          borderRadius: "50%",
+          border:       "1px solid rgba(255,255,255,0.10)",
+          background:   "transparent",
         }}
+        animate={live ? { rotate: 360 } : {}}
+        transition={live ? { duration: 18, repeat: Infinity, ease: "linear" } : {}}
       >
-        {/* ring 1 — closest, slower */}
-        <motion.div
+        <div
           style={{
             position:     "absolute",
-            inset:        -10,
+            top:          "50%",
+            left:         0,
+            width:        3,
+            height:       3,
             borderRadius: "50%",
-            border:       "1px solid rgba(255,255,255,0.10)",
-            background:   "transparent",
+            background:   "rgba(255,255,255,0.45)",
+            transform:    "translate(-50%, -50%)",
           }}
-          animate={live ? { rotate: 360 } : {}}
-          transition={live ? { duration: 18, repeat: Infinity, ease: "linear" } : {}}
-        >
-          {/* orbiting dot on ring 1 */}
-          <div
-            style={{
-              position:     "absolute",
-              top:          "50%",
-              left:         0,
-              width:        3,
-              height:       3,
-              borderRadius: "50%",
-              background:   "rgba(255,255,255,0.45)",
-              transform:    "translate(-50%, -50%)",
-            }}
-          />
-        </motion.div>
-  
-        {/* ring 2 — further out, opposite direction */}
-        <motion.div
-          style={{
-            position:     "absolute",
-            inset:        -30,
-            borderRadius: "50%",
-            border:       "1px solid rgba(255,255,255,0.055)",
-            background:   "transparent",
-          }}
-          animate={live ? { rotate: -360 } : {}}
-          transition={live ? { duration: 26, repeat: Infinity, ease: "linear" } : {}}
-        >
-          {/* orbiting dot on ring 2 */}
-          <div
-            style={{
-              position:     "absolute",
-              top:          0,
-              left:         "50%",
-              width:        2,
-              height:       2,
-              borderRadius: "50%",
-              background:   "rgba(255,255,255,0.3)",
-              transform:    "translate(-50%, -50%)",
-            }}
-          />
-        </motion.div>
-  
-        {/* ring 3 — outermost, very faint */}
-        <motion.div
-          style={{
-            position:     "absolute",
-            inset:        -52,
-            borderRadius: "50%",
-            border:       "1px solid rgba(255,255,255,0.025)",
-            background:   "transparent",
-          }}
-          animate={live ? { rotate: 360 } : {}}
-          transition={live ? { duration: 40, repeat: Infinity, ease: "linear" } : {}}
         />
-  
-        {/* breathing pulse ring — innermost */}
-        <motion.div
+      </motion.div>
+
+      {/* ring 2 — further out, opposite direction */}
+      <motion.div
+        style={{
+          position:     "absolute",
+          inset:        -30,
+          borderRadius: "50%",
+          border:       "1px solid rgba(255,255,255,0.055)",
+          background:   "transparent",
+        }}
+        animate={live ? { rotate: -360 } : {}}
+        transition={live ? { duration: 26, repeat: Infinity, ease: "linear" } : {}}
+      >
+        <div
           style={{
             position:     "absolute",
-            inset:        20,
+            top:          0,
+            left:         "50%",
+            width:        2,
+            height:       2,
             borderRadius: "50%",
-            border:       "1px solid rgba(255,255,255,0.12)",
-            background:   "transparent",
+            background:   "rgba(255,255,255,0.3)",
+            transform:    "translate(-50%, -50%)",
           }}
-          animate={live ? { scale: [1, 1.07, 1], opacity: [0.7, 0.15, 0.7] } : {}}
-          transition={live ? { duration: 3.2, repeat: Infinity, ease: "easeInOut" } : {}}
         />
-  
-        {/* breathing pulse ring — outer */}
-        <motion.div
-          style={{
-            position:     "absolute",
-            inset:        2,
-            borderRadius: "50%",
-            border:       "1px solid rgba(255,255,255,0.06)",
-            background:   "transparent",
-          }}
-          animate={live ? { scale: [1, 1.10, 1], opacity: [0.5, 0.08, 0.5] } : {}}
-          transition={live ? { duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 } : {}}
-        />
-      </div>
-    );
-  }
+      </motion.div>
+
+      {/* ring 3 — outermost, very faint */}
+      <motion.div
+        style={{
+          position:     "absolute",
+          inset:        -52,
+          borderRadius: "50%",
+          border:       "1px solid rgba(255,255,255,0.025)",
+          background:   "transparent",
+        }}
+        animate={live ? { rotate: 360 } : {}}
+        transition={live ? { duration: 40, repeat: Infinity, ease: "linear" } : {}}
+      />
+
+      {/* breathing pulse ring — innermost */}
+      <motion.div
+        style={{
+          position:     "absolute",
+          inset:        20,
+          borderRadius: "50%",
+          border:       "1px solid rgba(255,255,255,0.12)",
+          background:   "transparent",
+        }}
+        animate={live ? { scale: [1, 1.07, 1], opacity: [0.7, 0.15, 0.7] } : {}}
+        transition={live ? { duration: 3.2, repeat: Infinity, ease: "easeInOut" } : {}}
+      />
+
+      {/* breathing pulse ring — outer */}
+      <motion.div
+        style={{
+          position:     "absolute",
+          inset:        2,
+          borderRadius: "50%",
+          border:       "1px solid rgba(255,255,255,0.06)",
+          background:   "transparent",
+        }}
+        animate={live ? { scale: [1, 1.10, 1], opacity: [0.5, 0.08, 0.5] } : {}}
+        transition={live ? { duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 } : {}}
+      />
+    </div>
+  );
+}
+
 const PARTICLE_COUNT = 28;
 
 export default function Hero() {
@@ -202,6 +200,13 @@ export default function Hero() {
   const sectionRef  = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const live        = reduceMotion !== true;
+  
+  // FIX: Added mounted state to prevent hydration errors from Math.random()
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -246,9 +251,9 @@ export default function Hero() {
         }}
       />
 
-      {/* floating particles */}
+      {/* floating particles (Only renders after client hydration) */}
       <div aria-hidden style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-        {particles.current.map(i => <Particle key={i} live={live} />)}
+        {mounted && particles.current.map(i => <Particle key={i} live={live} />)}
       </div>
 
       {/* soft mesh */}

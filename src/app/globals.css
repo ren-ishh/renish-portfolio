@@ -254,3 +254,10 @@ main {
   padding-inline: 1.5rem;
 }
 @media (min-width: 768px) { .container { padding-inline: 2.5rem; } }
+
+@media (pointer: coarse) {
+  /* mobile/touch — restore default cursor, hide custom one */
+  *, *::before, *::after { 
+    cursor: auto !important; 
+  }
+}
