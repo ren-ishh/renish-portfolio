@@ -73,8 +73,14 @@ export default function Contact() {
       setStatus("success");
       formRef.current.reset();
       setTimeout(() => setStatus("idle"), 5000);
-    } catch (err) {
-        console.error("EmailJS error:", err?.text || err?.message || JSON.stringify(err));
+    } catch (error: unknown) {
+      // Robust TypeScript error handling to pass the strict Vercel build
+      const err = error as Record<string, any>;
+      console.error(
+        "EmailJS error:",
+        err?.text || err?.message || JSON.stringify(err)
+      );
+
       setStatus("error");
       setTimeout(() => setStatus("idle"), 4000);
     }
