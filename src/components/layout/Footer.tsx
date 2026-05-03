@@ -1,64 +1,81 @@
-import Link from "next/link";
-import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+"use client";
+
+import { motion } from "framer-motion";
+import { Github, Linkedin, Twitter, Instagram, ArrowUp } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 
+const socials = [
+  { Icon: Github,    href: siteConfig.github,    label: "GitHub"    },
+  { Icon: Linkedin,  href: siteConfig.linkedin,  label: "LinkedIn"  },
+  { Icon: Twitter,   href: siteConfig.twitter,   label: "Twitter"   },
+  { Icon: Instagram, href: siteConfig.instagram, label: "Instagram" },
+];
+
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="w-full border-t border-white/10 bg-black/20 backdrop-blur-lg">
-      <div className="mx-auto max-w-7xl px-6 py-12 md:px-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          
-          {/* Brand & Copyright */}
-          <div className="flex flex-col items-center md:items-start gap-2">
-            <Link href="/" className="text-xl font-bold tracking-tighter text-white">
-              {siteConfig.name}
-            </Link>
-            <p className="text-sm text-white/50 text-center md:text-left max-w-md">
-              Building digital experiences with modern web technologies.
-            </p>
-          </div>
+    <footer style={{
+      borderTop: "1px solid rgba(255,255,255,0.055)",
+      background: "#080808",
+    }}>
+      <div className="container" style={{ padding: "2.5rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "1.75rem" }}>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            <a
-              href={siteConfig.github}
+        {/* logo */}
+        <span style={{ fontSize: "1.25rem", fontWeight: 700, letterSpacing: "-0.035em", color: "white" }}>
+          {siteConfig.name}
+          <span style={{ color: "rgba(255,255,255,0.2)", fontSize: "0.7rem", fontWeight: 400, marginLeft: "6px", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            portfolio
+          </span>
+        </span>
+
+        {/* socials */}
+        <div style={{ display: "flex", gap: "8px" }}>
+          {socials.map(({ Icon, href, label }) => (
+            <motion.a
+              key={label}
+              href={href}
               target="_blank"
               rel="noreferrer"
-              aria-label="GitHub"
-              className="p-2.5 rounded-full bg-white/5 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
+              aria-label={label}
+              whileHover={{ scale: 1.08, y: -2, color: "#fff", borderColor: "rgba(255,255,255,0.22)", backgroundColor: "rgba(255,255,255,0.05)" }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: "spring", stiffness: 460, damping: 26 }}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center",
+                width: 36, height: 36, borderRadius: "9px",
+                border: "1px solid rgba(255,255,255,0.07)",
+                color: "rgba(255,255,255,0.35)",
+              }}
             >
-              <FiGithub size={18} />
-            </a>
-            <a
-              href={siteConfig.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="p-2.5 rounded-full bg-white/5 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
-            >
-              <FiLinkedin size={18} />
-            </a>
-            <a
-              href={`mailto:${siteConfig.email}`}
-              aria-label="Email"
-              className="p-2.5 rounded-full bg-white/5 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
-            >
-              <FiMail size={18} />
-            </a>
-          </div>
+              <Icon size={15} />
+            </motion.a>
+          ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>© {currentYear} {siteConfig.fullName}. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              Available for opportunities
-            </span>
-          </div>
+        {/* divider + bottom row */}
+        <div style={{ width: "100%", maxWidth: "400px", height: "1px", background: "rgba(255,255,255,0.055)" }} />
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", maxWidth: "400px" }}>
+          <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.2)", letterSpacing: "0.03em" }}>
+            © {new Date().getFullYear()} {siteConfig.fullName} · Built with Next.js
+          </p>
+          <motion.button
+            type="button"
+            onClick={scrollTop}
+            aria-label="Back to top"
+            whileHover={{ scale: 1.08, y: -2, color: "#fff", borderColor: "rgba(255,255,255,0.28)" }}
+            whileTap={{ scale: 0.94 }}
+            transition={{ type: "spring", stiffness: 480, damping: 28 }}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              width: 32, height: 32, borderRadius: "8px",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "transparent", color: "rgba(255,255,255,0.3)",
+            }}
+          >
+            <ArrowUp size={14} />
+          </motion.button>
         </div>
       </div>
     </footer>

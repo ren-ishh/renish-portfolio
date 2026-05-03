@@ -10,15 +10,14 @@ export interface Project {
     featured: boolean;
   }
   
-  export interface Skill {
+  export interface SkillItem {
     name: string;
     level: number;
-    icon: string;
   }
   
   export interface SkillCategory {
     category: string;
-    items: Skill[];
+    items: SkillItem[];
   }
   
   export interface Achievement {

@@ -11,97 +11,81 @@ export default function CustomCursor() {
     const ring = ringRef.current;
     if (!dot || !ring) return;
 
-    let mouseX = -100, mouseY = -100;
-    let ringX  = -100, ringY  = -100;
-    let animId: number;
+    let mx = -200, my = -200;
+    let rx = -200, ry = -200;
+    let raf: number;
 
-    const onMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform  = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-      dot.style.opacity    = "1";
-      ring.style.opacity   = "1";
+    const move = (e: MouseEvent) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      dot.style.opacity   = "1";
+      ring.style.opacity  = "1";
     };
 
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-    const animate = () => {
-      ringX = lerp(ringX, mouseX, 0.1);
-      ringY = lerp(ringY, mouseY, 0.1);
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-      animId = requestAnimationFrame(animate);
+    const loop = () => {
+      rx = lerp(rx, mx, 0.11);
+      ry = lerp(ry, my, 0.11);
+      ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      raf = requestAnimationFrame(loop);
     };
 
-    const onLinkEnter = () => {
-      ring.style.width           = "52px";
-      ring.style.height          = "52px";
-      ring.style.borderColor     = "rgba(255,255,255,0.7)";
-      ring.style.backgroundColor = "rgba(255,255,255,0.04)";
-      dot.style.transform        = dot.style.transform.replace("translate(-50%, -50%)", "translate(-50%, -50%) scale(0)");
-      dot.style.opacity          = "0";
+    const enter = () => {
+      ring.style.width           = "54px";
+      ring.style.height          = "54px";
+      ring.style.borderColor     = "rgba(255,255,255,0.65)";
+      ring.style.backgroundColor = "rgba(255,255,255,0.03)";
+      dot.style.opacity = "0";
     };
-
-    const onLinkLeave = () => {
+    const leave = () => {
       ring.style.width           = "28px";
       ring.style.height          = "28px";
-      ring.style.borderColor     = "rgba(255,255,255,0.25)";
+      ring.style.borderColor     = "rgba(255,255,255,0.22)";
       ring.style.backgroundColor = "transparent";
-      dot.style.opacity          = "1";
+      dot.style.opacity = "1";
     };
 
-    document.addEventListener("mousemove", onMove, { passive: true });
-    animId = requestAnimationFrame(animate);
-
-    const attach = () => {
-      document.querySelectorAll("a, button, [data-cursor]").forEach((el) => {
-        (el as HTMLElement).addEventListener("mouseenter", onLinkEnter);
-        (el as HTMLElement).addEventListener("mouseleave", onLinkLeave);
+    const attach = () =>
+      document.querySelectorAll("a,button,[data-cursor]").forEach((el) => {
+        el.addEventListener("mouseenter", enter);
+        el.addEventListener("mouseleave", leave);
       });
-    };
 
+    document.addEventListener("mousemove", move, { passive: true });
+    raf = requestAnimationFrame(loop);
     attach();
+
     const obs = new MutationObserver(attach);
     obs.observe(document.body, { childList: true, subtree: true });
 
     return () => {
-      document.removeEventListener("mousemove", onMove);
-      cancelAnimationFrame(animId);
+      document.removeEventListener("mousemove", move);
+      cancelAnimationFrame(raf);
       obs.disconnect();
     };
   }, []);
 
+  const base: React.CSSProperties = {
+    position: "fixed", top: 0, left: 0,
+    pointerEvents: "none", willChange: "transform",
+  };
+
   return (
     <>
-      <div
-        ref={dotRef}
-        style={{
-          position: "fixed",
-          top: 0, left: 0,
-          zIndex: 99999,
-          width: "5px", height: "5px",
-          borderRadius: "50%",
-          backgroundColor: "white",
-          opacity: 0,
-          pointerEvents: "none",
-          willChange: "transform",
-          transition: "opacity 0.2s",
-        }}
-      />
-      <div
-        ref={ringRef}
-        style={{
-          position: "fixed",
-          top: 0, left: 0,
-          zIndex: 99998,
-          width: "28px", height: "28px",
-          borderRadius: "50%",
-          border: "1px solid rgba(255,255,255,0.25)",
-          opacity: 0,
-          pointerEvents: "none",
-          willChange: "transform",
-          transition: "width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, opacity 0.3s",
-        }}
-      />
+      <div ref={dotRef} style={{
+        ...base, zIndex: 99999,
+        width: "5px", height: "5px", borderRadius: "50%",
+        background: "white", opacity: 0,
+        transition: "opacity 0.2s",
+      }} />
+      <div ref={ringRef} style={{
+        ...base, zIndex: 99998,
+        width: "28px", height: "28px", borderRadius: "50%",
+        border: "1px solid rgba(255,255,255,0.22)",
+        opacity: 0,
+        transition:
+          "width .22s ease, height .22s ease, border-color .22s ease, background-color .22s ease, opacity .3s",
+      }} />
     </>
   );
 }

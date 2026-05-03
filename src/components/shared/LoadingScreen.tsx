@@ -5,116 +5,122 @@ import { motion, AnimatePresence } from "framer-motion";
 import { siteConfig } from "@/lib/data";
 
 export default function LoadingScreen() {
-  const [loading, setLoading] = useState(true);
+  const [visible,  setVisible]  = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Animate progress bar
-    const interval = setInterval(() => {
+    const iv = setInterval(() => {
       setProgress((p) => {
-        if (p >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        // Accelerate toward end
-        const increment = p < 60 ? 3 : p < 85 ? 2 : 0.8;
-        return Math.min(p + increment, 100);
+        const step = p < 60 ? 4 : p < 85 ? 2 : 0.7;
+        return Math.min(p + step, 100);
       });
-    }, 30);
+    }, 28);
 
-    // Dismiss after ~1.6s
-    const timer = setTimeout(() => setLoading(false), 1700);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timer);
-    };
+    const t = setTimeout(() => setVisible(false), 1800);
+    return () => { clearInterval(iv); clearTimeout(t); };
   }, []);
 
   return (
     <AnimatePresence>
-      {loading && (
+      {visible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-          style={{ background: "#080808" }}
+          exit={{ opacity: 0, scale: 1.03 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            position: "fixed", inset: 0, zIndex: 99999,
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            background: "#080808",
+          }}
         >
-          {/* Grid background */}
+          {/* subtle dot-grid bg */}
           <div
-            className="absolute inset-0 opacity-[0.03]"
+            aria-hidden
             style={{
+              position: "absolute", inset: 0, opacity: 0.03,
               backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
+                "radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
             }}
           />
 
-          {/* Logo */}
+          {/* name */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-12 text-center"
+            transition={{ duration: 0.45, delay: 0.1 }}
+            style={{ textAlign: "center", marginBottom: "3rem" }}
           >
             <span
-              className="text-white font-bold"
-              style={{ fontSize: "clamp(2rem, 6vw, 3.5rem)", letterSpacing: "-0.04em" }}
+              style={{
+                fontSize: "clamp(2.4rem, 7vw, 4rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                color: "white",
+              }}
             >
               {siteConfig.name}
             </span>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mt-2 text-sm tracking-widest uppercase"
-              style={{ color: "rgba(255,255,255,0.3)", letterSpacing: "0.2em" }}
+              transition={{ delay: 0.35 }}
+              style={{
+                marginTop: "0.4rem",
+                fontSize: "0.7rem",
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.25)",
+              }}
             >
               {siteConfig.title}
             </motion.p>
           </motion.div>
 
-          {/* Progress bar */}
+          {/* progress */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="w-48 relative"
+            transition={{ delay: 0.25 }}
+            style={{ width: "160px" }}
           >
-            {/* Track */}
-            <div
-              className="w-full h-[1px] rounded-full"
-              style={{ background: "rgba(255,255,255,0.08)" }}
-            />
-            {/* Fill */}
-            <motion.div
-              className="absolute top-0 left-0 h-[1px] rounded-full"
-              style={{
-                background: "white",
+            <div style={{
+              width: "100%", height: "1px",
+              background: "rgba(255,255,255,0.07)",
+              borderRadius: "99px",
+              position: "relative",
+            }}>
+              <div
+                className="loading-bar-glow"
+                style={{
+                position: "absolute", left: 0, top: 0,
+                height: "100%", borderRadius: "99px",
+                boxShadow: "0 0 12px rgba(255,255,255,0.45)",
                 width: `${progress}%`,
-                boxShadow: "0 0 8px rgba(255,255,255,0.6)",
+                transition: "width 0.1s linear",
               }}
-            />
-            {/* Percent */}
-            <div
-              className="mt-3 text-right text-xs font-mono"
-              style={{ color: "rgba(255,255,255,0.2)" }}
-            >
+              />
+            </div>
+            <div style={{
+              marginTop: "0.6rem",
+              textAlign: "right",
+              fontSize: "0.65rem",
+              fontFamily: "var(--font-geist-mono, monospace)",
+              color: "rgba(255,255,255,0.15)",
+            }}>
               {Math.floor(progress)}
             </div>
           </motion.div>
 
-          {/* Subtle bottom tagline */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="absolute bottom-8 text-xs"
-            style={{ color: "rgba(255,255,255,0.15)", letterSpacing: "0.08em" }}
-          >
+          <p style={{
+            position: "absolute", bottom: "2rem",
+            fontSize: "0.65rem",
+            letterSpacing: "0.08em",
+            color: "rgba(255,255,255,0.1)",
+          }}>
             portfolio · {new Date().getFullYear()}
-          </motion.p>
+          </p>
         </motion.div>
       )}
     </AnimatePresence>

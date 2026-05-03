@@ -17,6 +17,14 @@ export const siteConfig = {
   url: "https://renish.dev", // update after Vercel deploy
 };
 
+export const heroRoles = [
+  "Software Engineer",
+  "Python Developer",
+  "Web Developer",
+  "Problem Solver",
+  "CS Student @ LPU",
+];
+
 export const skills = [
   {
     category: "Languages",
