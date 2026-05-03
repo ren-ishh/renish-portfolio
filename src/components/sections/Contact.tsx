@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import {
@@ -75,7 +73,8 @@ export default function Contact() {
       setStatus("success");
       formRef.current.reset();
       setTimeout(() => setStatus("idle"), 5000);
-    } catch {
+    } catch (err) {
+        console.error("EmailJS error:", err?.text || err?.message || JSON.stringify(err));
       setStatus("error");
       setTimeout(() => setStatus("idle"), 4000);
     }
@@ -200,6 +199,8 @@ export default function Contact() {
           </motion.div>
 
           <motion.div
+            className="glass"
+            style={{ borderRadius: "14px", padding: "1.5rem" }}
             initial={{ opacity: 0, x: 20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{

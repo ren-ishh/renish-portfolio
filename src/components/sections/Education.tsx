@@ -50,10 +50,16 @@ function TimelineItem({ item, index, isLast }: { item: typeof education[0]; inde
         transition={{ duration: 0.6, delay: index * 0.15 + 0.1, ease: [0.16, 1, 0.3, 1] as const }}
         whileHover={{
           x: 5,
+          borderColor: "rgba(255,255,255,0.18)",
+          boxShadow: "0 16px 32px rgba(0,0,0,0.3)",
           transition: { type: "spring", stiffness: 380, damping: 32 },
         }}
+        className="glass-sm"
         style={{
-          paddingBottom: isLast ? 0 : "2.5rem",
+          marginBottom: isLast ? 0 : "2.5rem",
+          padding: "1.5rem",
+          borderRadius: "14px",
+          transition: "border-color .25s, box-shadow .25s",
           flex: 1,
         }}
       >
@@ -109,10 +115,11 @@ export default function Education() {
 
         <div ref={headRef} className="section-head">
           <motion.p
-            className="section-label"
+            className="section-label glass-sm"
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
+            style={{ padding: "6px 14px", borderRadius: "99px" }}
           >
             Education
           </motion.p>

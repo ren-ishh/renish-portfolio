@@ -40,10 +40,11 @@ export default function Skills() {
         {/* header */}
         <div ref={headRef} className="section-head">
           <motion.p
-            className="section-label"
+            className="section-label glass-sm"
             initial={{ opacity:0, y:10 }}
             animate={inView ? { opacity:1, y:0 } : {}}
             transition={{ duration:0.5 }}
+            style={{ padding: "6px 14px", borderRadius: "99px" }}
           >
             Skills
           </motion.p>
@@ -77,14 +78,14 @@ export default function Skills() {
               initial={{ opacity:0, y:28 }}
               animate={inView ? { opacity:1, y:0 } : {}}
               transition={{ duration:0.65, delay:ci * 0.12, ease:[0.16,1,0.3,1] as const }}
-              className="glass"
+              className="glass-sm"
               whileHover={{
                 y: -5,
-                borderColor: "rgba(255,255,255,0.12)",
+                borderColor: "rgba(255,255,255,0.18)",
                 boxShadow: "0 20px 44px rgba(0,0,0,0.4)",
                 transition: { type: "spring", stiffness: 400, damping: 26 },
               }}
-              style={{ padding:"1.75rem" }}
+              style={{ padding:"1.75rem", borderRadius: "14px", transition: "border-color .25s, box-shadow .25s" }}
             >
               {/* category label */}
               <p style={{

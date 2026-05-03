@@ -28,17 +28,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className="glass-sm"
       style={{
         position: "relative",
         padding: "1.75rem",
         borderRadius: "14px",
         border: `1px solid ${
-          hovered ? "rgba(255,255,255,0.13)" : "rgba(255,255,255,0.07)"
+          hovered ? "rgba(255,255,255,0.18)" : "var(--border)"
         }`,
-        background: hovered
-          ? "rgba(255,255,255,0.035)"
-          : "rgba(255,255,255,0.018)",
-        transition: "border-color .25s, background .25s",
+        transition: "border-color .25s, box-shadow .25s",
+        boxShadow: hovered ? "0 16px 32px rgba(0,0,0,0.4)" : "inset 0 1px 0 rgba(255, 255, 255, 0.06)",
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
@@ -219,10 +218,11 @@ export default function Projects() {
         {/* header */}
         <div ref={headRef} className="section-head">
           <motion.p
-            className="section-label"
+            className="section-label glass-sm"
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
+            style={{ padding: "6px 14px", borderRadius: "99px" }}
           >
             Projects
           </motion.p>

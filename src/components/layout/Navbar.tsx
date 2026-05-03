@@ -72,18 +72,9 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         style={{ position: "fixed", inset: "0 0 auto 0", zIndex: 100 }}
       >
-        <div
-          style={{
-            background: scrolled ? "rgba(8,8,8,0.82)" : "transparent",
-            backdropFilter: scrolled ? "blur(22px) saturate(180%)" : "none",
-            WebkitBackdropFilter: scrolled
-              ? "blur(22px) saturate(180%)"
-              : "none",
-            borderBottom: scrolled
-              ? "1px solid rgba(255,255,255,0.055)"
-              : "1px solid transparent",
-            transition: "background .4s, border-color .4s",
-          }}
+        <div 
+          className={scrolled ? "glass" : ""}
+          style={{ transition: "background .4s, border-color .4s" }}
         >
           <nav
             style={{

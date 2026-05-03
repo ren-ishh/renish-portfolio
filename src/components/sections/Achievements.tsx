@@ -21,19 +21,19 @@ function AchievementCard({ item, index }: { item: typeof achievements[0]; index:
       initial={{ opacity: 0, x: -20 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] as const }}
+      className="glass-sm"
       whileHover={{
         y: -3,
         x: 4,
-        borderColor: "rgba(255,255,255,0.14)",
-        backgroundColor: "rgba(255,255,255,0.04)",
+        borderColor: "rgba(255,255,255,0.18)",
+        boxShadow: "0 16px 32px rgba(0,0,0,0.3)",
         transition: { type: "spring", stiffness: 400, damping: 30 },
       }}
       style={{
         display: "flex", gap: "1.25rem", alignItems: "flex-start",
         padding: "1.5rem",
-        borderRadius: "12px",
-        border: "1px solid rgba(255,255,255,0.07)",
-        background: "rgba(255,255,255,0.018)",
+        borderRadius: "14px",
+        transition: "border-color .25s, box-shadow .25s",
       }}
     >
       {/* icon */}
@@ -86,10 +86,11 @@ export default function Achievements() {
 
         <div ref={headRef} className="section-head">
           <motion.p
-            className="section-label"
+            className="section-label glass-sm"
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
+            style={{ padding: "6px 14px", borderRadius: "99px" }}
           >
             Achievements
           </motion.p>

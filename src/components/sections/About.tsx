@@ -56,10 +56,11 @@ export default function About() {
         {/* header */}
         <div ref={headRef} className="section-head">
           <motion.p
-            className="section-label"
+            className="section-label glass-sm"
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
+            style={{ padding: "6px 14px", borderRadius: "99px" }}
           >
             About
           </motion.p>
