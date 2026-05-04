@@ -27,16 +27,14 @@ export default function Navbar() {
     const onScroll = () => {
       const y = window.scrollY;
 
-      // transparent vs frosted threshold
       setScrolled(y > 40);
 
-      // hide when scrolling DOWN past 100px, show when scrolling UP
       if (y < 100) {
         setHidden(false);
       } else if (y > lastY.current + 6) {
-        setHidden(true);   // scrolling down
+        setHidden(true);
       } else if (y < lastY.current - 4) {
-        setHidden(false);  // scrolling up
+        setHidden(false);
       }
 
       lastY.current = y;
@@ -65,7 +63,12 @@ export default function Navbar() {
   const go = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    
+    // 150ms delay allows the mobile menu exit animation to finish 
+    // so iOS Safari doesn't cancel the smooth scroll
+    setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
   }, []);
 
   useEffect(() => {
@@ -90,8 +93,6 @@ export default function Navbar() {
         <div
           style={{
             transition: "background .4s, border-color .4s, backdrop-filter .4s",
-            // at top: fully transparent, no border
-            // scrolled: very subtle glass — much lighter than before
             background:           scrolled ? "rgba(8,8,8,0.55)"              : "transparent",
             backdropFilter:       scrolled ? "blur(18px) saturate(160%)"     : "none",
             WebkitBackdropFilter: scrolled ? "blur(18px) saturate(160%)"     : "none",
@@ -167,7 +168,7 @@ export default function Navbar() {
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }} className="hidden-mobile">
               {[
                 { href: siteConfig.github,   Icon: Github,   label: "GitHub"   },
-                { href: siteConfig.linkedin,  Icon: Linkedin, label: "LinkedIn" },
+                { href: siteConfig.linkedin, Icon: Linkedin, label: "LinkedIn" },
               ].map(({ href, Icon, label }) => (
                 <motion.a
                   key={label}
@@ -234,7 +235,7 @@ export default function Navbar() {
                   key={open ? "x" : "m"}
                   initial={{ rotate: -90, opacity: 0 }}
                   animate={{ rotate: 0,   opacity: 1 }}
-                  exit={{   rotate:  90,  opacity: 0 }}
+                  exit={{    rotate:  90, opacity: 0 }}
                   transition={{ duration: 0.13 }}
                   style={{ display: "flex" }}
                 >
@@ -254,7 +255,7 @@ export default function Navbar() {
         `}</style>
       </motion.header>
 
-      {/* mobile full-screen menu — unchanged */}
+      {/* mobile full-screen menu */}
       <AnimatePresence>
         {open && (
           <motion.div

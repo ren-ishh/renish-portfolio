@@ -1,20 +1,19 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { MapPin, GraduationCap, Code2, Rocket } from "lucide-react";
 import { siteConfig } from "@/lib/data";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const cards = [
-  { Icon: GraduationCap, title: "Student",    body: "1st-year B.Tech CSE at Lovely Professional University, Punjab." },
-  { Icon: Code2,         title: "Builder",    body: "Turning ideas into real projects with Python, JavaScript & the web stack." },
-  { Icon: Rocket,        title: "Ambitious",  body: "Obsessed with growth — building skills and a career in software engineering." },
-  { Icon: MapPin,        title: "Location",   body: "Based in India · studying in Punjab · open to remote opportunities." },
+  { Icon: GraduationCap, title: "Student",   body: "1st-year B.Tech CSE at Lovely Professional University, Punjab." },
+  { Icon: Code2,         title: "Builder",   body: "Turning ideas into real projects with Python, JavaScript & the web stack." },
+  { Icon: Rocket,        title: "Ambitious", body: "Obsessed with growth — building skills and a career in software engineering." },
+  { Icon: MapPin,        title: "Location",  body: "Based in India · studying in Punjab · open to remote opportunities." },
 ];
 
 function Card({ Icon, title, body, index }: typeof cards[0] & { index: number }) {
-  const ref    = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+  const { ref, inView } = useScrollAnimation("-5% 0px");
 
   return (
     <motion.div
@@ -46,8 +45,7 @@ function Card({ Icon, title, body, index }: typeof cards[0] & { index: number })
 }
 
 export default function About() {
-  const headRef = useRef<HTMLDivElement>(null);
-  const inView  = useInView(headRef, { once: true, margin: "-8% 0px" });
+  const { ref: headRef, inView } = useScrollAnimation();
 
   return (
     <section id="about" className="section">

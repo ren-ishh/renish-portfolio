@@ -3,10 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar        from "@/components/layout/Navbar";
 import Footer        from "@/components/layout/Footer";
-
-// 1. Import the new GlassCursor (and remove the old CustomCursor import)
 import GlassCursor   from "@/components/ui/GlassCursor"; 
-
 import ScrollProgress from "@/components/shared/ScrollProgress";
 import LoadingScreen from "@/components/shared/LoadingScreen";
 
@@ -22,30 +19,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Renish  — Software Developer",
+  title: "Renish R — Software Developer",
   description:
     "First-year B.Tech CSE student at LPU building real-world projects. Open to internships and collaborations.",
-  keywords: ["Renish",  "Full Stack Developer", "React", "Next.js", "LPU", "DevOps"],
-  authors: [{ name: "Renish " }],
-  creator: "Renish ",
-  metadataBase: new URL("https://renish.vercel.app"),
+  keywords: ["Renish", "Renish R", "Full Stack Developer", "React", "Next.js", "LPU", "DevOps"],
+  authors: [{ name: "Renish R" }],
+  creator: "Renish R",
+  metadataBase: new URL("https://renish-portfolio-wheat.vercel.app"),
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://renish.vercel.app",
+    url: "https://renish-portfolio-wheat.vercel.app",
     title: "Renish R — Software Developer",
     description: "Building real-world projects. Open to internships.",
-    siteName: "Renish ",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Renish " }],
+    siteName: "Renish R",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Renish R Portfolio" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Renish ",
+    title: "Renish R",
     description: "Full Stack Developer — React, Next.js, Node.js",
     images: ["/og-image.png"],
   },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
   robots: { index: true, follow: true },
- 
 };
 
 export const viewport: Viewport = {
@@ -62,10 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <LoadingScreen />
-        
-        {/* 2. Add GlassCursor here (replaced CustomCursor) */}
         <GlassCursor /> 
-        
         <ScrollProgress />
         <Navbar />
         <main>{children}</main>

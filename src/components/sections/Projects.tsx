@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { GitBranch, ExternalLink, ArrowUpRight } from "lucide-react";
 import { projects } from "@/lib/data";
 import ProjectModal from "@/components/shared/ProjectModal";
 import type { Project } from "@/types";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 function ProjectCard({
   project,
@@ -16,8 +17,7 @@ function ProjectCard({
   index: number;
   onSelect: (p: Project) => void;
 }) {
-  const ref    = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-5% 0px" });
+  const { ref, inView } = useScrollAnimation("-5% 0px");
   const [hovered, setHovered] = useState(false);
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -45,8 +45,8 @@ function ProjectCard({
       onClick={handleCardClick}
       className="glass-sm"
       style={{
-        position:      "relative",
-        padding:       "1.75rem",
+        position:       "relative",
+        padding:        "1.75rem",
         borderRadius:  "14px",
         border:        `1px solid ${hovered ? "rgba(255,255,255,0.18)" : "var(--border)"}`,
         transition:    "border-color .25s, box-shadow .25s",
@@ -204,12 +204,11 @@ function ProjectCard({
 }
 
 export default function Projects() {
-  const headRef  = useRef<HTMLDivElement>(null);
-  const inView   = useInView(headRef, { once: true, margin: "-8% 0px" });
+  const { ref: headRef, inView } = useScrollAnimation();
   const [selected, setSelected] = useState<Project | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
-  // Show all projects (featured + non-featured)
-  const featured = projects.filter((p) => p.featured);
+  const displayedProjects = showAll ? projects : projects.filter((p) => p.featured);
 
   return (
     <section id="projects" className="section">
@@ -263,7 +262,7 @@ export default function Projects() {
           gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           gap:                 "1rem",
         }}>
-          {featured.map((p, i) => (
+          {displayedProjects.map((p, i) => (
             <ProjectCard
               key={p.id}
               project={p}
@@ -273,13 +272,47 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* GitHub CTA */}
+        {/* View All / GitHub CTAs */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.7 }}
-          style={{ marginTop: "2.5rem", textAlign: "center" }}
+          style={{ 
+            marginTop: "2.5rem", 
+            display: "flex", 
+            flexDirection: "column", 
+            alignItems: "center", 
+            gap: "1.25rem" 
+          }}
         >
+          {/* Toggle Button */}
+          {projects.length > displayedProjects.length || showAll ? (
+            <button
+              onClick={() => setShowAll(!showAll)}
+              style={{
+                padding: "10px 24px", 
+                borderRadius: "99px", 
+                fontSize: "0.845rem", 
+                fontWeight: 500,
+                background: "rgba(255,255,255,0.05)", 
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "white", 
+                cursor: "pointer", 
+                transition: "background .2s, border-color .2s"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+              }}
+            >
+              {showAll ? "Show Less" : "View All Projects"}
+            </button>
+          ) : null}
+
           <a
             href="https://github.com/ren-ishh"
             target="_blank"
@@ -288,25 +321,15 @@ export default function Projects() {
               display:        "inline-flex",
               alignItems:     "center",
               gap:            "8px",
-              padding:        "10px 24px",
-              borderRadius:   "99px",
-              fontSize:       "0.845rem",
-              fontWeight:     500,
-              border:         "1px solid rgba(255,255,255,0.1)",
-              color:          "rgba(255,255,255,0.5)",
+              fontSize:       "0.8rem",
+              color:          "rgba(255,255,255,0.4)",
               textDecoration: "none",
-              transition:     "color .2s, border-color .2s",
+              transition:     "color .2s",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "white";
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "rgba(255,255,255,0.5)";
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = "white"}
+            onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.4)"}
           >
-            <GitBranch size={14} /> See all on GitHub
+            <GitBranch size={13} /> Explore more on GitHub
           </a>
         </motion.div>
       </div>
