@@ -1,11 +1,10 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function Blog() {
-  const headRef = useRef<HTMLDivElement>(null);
-  const inView  = useInView(headRef, { once: true, margin: "-8% 0px" });
+  const { ref: headRef, inView } = useScrollAnimation();
 
   return (
     <section id="blog" className="section" style={{ background: "rgba(255,255,255,0.012)" }}>

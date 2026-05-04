@@ -11,7 +11,7 @@ export const siteConfig = {
   linkedin:    "https://www.linkedin.com/in/ren-ishh",
   instagram:   "https://instagram.com/ren.ishh",
   twitter:     "https://x.com/renishh7",
-  url:         "https://renish.vercel.app",
+  url:         "https://renish-portfolio-wheat.vercel.app",
 };
 
 export const heroRoles = [

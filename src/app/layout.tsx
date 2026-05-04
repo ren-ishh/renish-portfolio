@@ -41,11 +41,6 @@ export const metadata: Metadata = {
     description: "Full Stack Developer — React, Next.js, Node.js",
     images: ["/og-image.png"],
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
   robots: { index: true, follow: true },
 };
 
