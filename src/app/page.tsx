@@ -8,6 +8,8 @@ import Contact      from "@/components/sections/Contact";
 import Blog from "@/components/sections/Blog";
 import { getGitHubProjects } from "@/lib/github";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const projects = await getGitHubProjects();
 
