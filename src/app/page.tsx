@@ -6,14 +6,17 @@ import Achievements from "@/components/sections/Achievements";
 import Education    from "@/components/sections/Education";
 import Contact      from "@/components/sections/Contact";
 import Blog from "@/components/sections/Blog";
+import { getGitHubProjects } from "@/lib/github";
 
-export default function Home() {
+export default async function Home() {
+  const projects = await getGitHubProjects();
+
   return (
     <>
       <Hero />
       <About />
       <Skills />
-      <Projects />
+      <Projects projects={projects} />
       <Achievements />
       <Education />
       <Blog/>

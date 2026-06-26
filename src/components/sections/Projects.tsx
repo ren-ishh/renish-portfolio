@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { GitBranch, ExternalLink, ArrowUpRight } from "lucide-react";
-import { projects } from "@/lib/data";
 import ProjectModal from "@/components/shared/ProjectModal";
 import type { Project } from "@/types";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -203,7 +202,11 @@ function ProjectCard({
   );
 }
 
-export default function Projects() {
+interface ProjectsProps {
+  projects: Project[];
+}
+
+export default function Projects({ projects }: ProjectsProps) {
   const { ref: headRef, inView } = useScrollAnimation();
   const [selected, setSelected] = useState<Project | null>(null);
   const [showAll, setShowAll] = useState(false);
