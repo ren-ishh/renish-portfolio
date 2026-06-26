@@ -58,7 +58,6 @@ export async function getGitHubProjects(): Promise<Project[]> {
         if (r.archived) return false;
         if (r.visibility !== "public") return false;
         if (EXCLUDED_REPOS.includes(r.name)) return false;
-        if (r.stargazers_count < 1) return false;
         return true;
       })
       .sort((a, b) => {
