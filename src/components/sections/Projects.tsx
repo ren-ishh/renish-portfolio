@@ -260,20 +260,50 @@ export default function Projects({ projects }: ProjectsProps) {
         </div>
 
         {/* grid */}
-        <div style={{
-          display:             "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          gap:                 "1rem",
-        }}>
-          {displayedProjects.map((p, i) => (
-            <ProjectCard
-              key={p.id}
-              project={p}
-              index={i}
-              onSelect={setSelected}
-            />
-          ))}
-        </div>
+        {projects.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            style={{
+              textAlign: "center",
+              padding: "3rem 1rem",
+              color: "rgba(255,255,255,0.35)",
+              fontSize: "0.9rem",
+              lineHeight: 1.7,
+            }}
+          >
+            No starred repos yet.{/* */}
+            <br />
+            <a
+              href="https://github.com/ren-ishh"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "rgba(255,255,255,0.6)",
+                textDecoration: "underline",
+                textUnderlineOffset: "3px",
+              }}
+            >
+              Browse GitHub →
+            </a>
+          </motion.div>
+        ) : (
+          <div style={{
+            display:             "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            gap:                 "1rem",
+          }}>
+            {displayedProjects.map((p, i) => (
+              <ProjectCard
+                key={p.id}
+                project={p}
+                index={i}
+                onSelect={setSelected}
+              />
+            ))}
+          </div>
+        )}
 
         {/* View All / GitHub CTAs */}
         <motion.div
